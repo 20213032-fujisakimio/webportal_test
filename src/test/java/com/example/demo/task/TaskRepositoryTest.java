@@ -156,7 +156,7 @@ class TaskRepositoryTest {
 	void fileOutメソッドにモック値heandlerを設定() {
 		// 0. Mock
 		TaskRowCallbackHandler handler = new TaskRowCallbackHandler();
-		doNothing().when(mock).query(anyString(), anyMap(), handler);
+		doNothing().when(mock).query(anyString(), anyMap(), eq(handler));
 		
 		// 1. Ready
 		String x = "gon";
