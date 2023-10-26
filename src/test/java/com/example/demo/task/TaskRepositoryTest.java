@@ -119,7 +119,23 @@ class TaskRepositoryTest {
 		// 4. Log
 		log.info("結果：SQLException");
 	}
-
+	
+	@Test
+	void updateメソッドにモック値0を設定しSQLExceptionを出力() {
+		// 0. Mock
+		int returnValue = 0;
+		doReturn(returnValue).when(mock).update(anyString(), anyMap());
+		
+		// 1. Ready
+		int id = 0;
+		
+		// 2. Do & 3. Check
+		assertThrows(SQLException.class, () -> target.update(id));
+		
+		// 4. Log
+		log.info("結果：SQLException");
+	}
+	
 	@Test
 	void updateメソッドにモック値1を設定しSQLExceptionが出力されない() {
 		// 0. Mock
@@ -137,25 +153,19 @@ class TaskRepositoryTest {
 	}
 	
 	@Test
-	void updateメソッドにモック値0を設定しSQLExceptionを出力() {
+	void fileOutメソッドにモック値heandlerを設定() {
 		// 0. Mock
-		int returnValue = 0;
-		doReturn(returnValue).when(mock).update(anyString(), anyMap());
+		TaskRowCallbackHandler handler = new TaskRowCallbackHandler();
+		doNothing().when(mock).query(anyString(), anyMap(), handler);
 		
 		// 1. Ready
-		int id = 0;
+		String x = "gon";
 		
 		// 2. Do & 3. Check
-		assertThrows(SQLException.class, () -> target.update(id));
+		target.fileOut(x);
 		
 		// 4. Log
-		log.info("結果：SQLException");
-	}
-
-	@Test
-	void testFileOut() {
-		// 0. Mock
-//		doNothing().when(mock).query(anyString(), any(),any());
+		log.info("結果：CSV出力完了");
 	}
 
 }
