@@ -68,7 +68,7 @@ class TaskServiceTest {
 	}
 
 	@Test
-	void testInsert() throws SQLException {
+	void insertメソッドのモック値にany型を設定() throws SQLException {
 		// 0. Mock
 		doNothing().when(mock).save(any());
 		
@@ -76,20 +76,74 @@ class TaskServiceTest {
 		String userId = "gon";
 		String title = "このレコードは消さないこと";
 		String limitday = "2022-11-11";
+		boolean expected = true;
 		
         // 2.Do
         boolean result = target.insert(userId, title, limitday);
         
         // 3.Check
-        assertDoesNotThrow(() -> target.insert(userId, title, limitday));
+        assertEquals(expected, result);
+
+        // 4.Log
+        log.info("結果：" + result);
+	}
+	
+	@Test
+	void insertメソッドのモック値にany型を設定して例外をスローする() throws SQLException {
+		// 0. Mock
+		doThrow(new SQLException("")).when(mock).save(any());
+		
+		// 1. Ready
+		String userId = "gon";
+		String title = "このレコードは消さないこと";
+		String limitday = "2022-11-11";
+		boolean expected = false;
+		
+        // 2.Do
+        boolean result = target.insert(userId, title, limitday);
+        
+        // 3.Check
+        assertEquals(expected, result);
 
         // 4.Log
         log.info("結果：" + result);
 	}
 
 	@Test
-	void testDelete() {
-		fail("まだ実装されていません");
+	void deleteメソッドのモック値にany型を設定() throws SQLException {
+		// 0.Mock
+		doNothing().when(mock).delete(anyInt());
+		
+		// 1.Ready
+        String x = "01";
+        
+        // 2.Do
+        boolean result = target.delete(x);
+        
+        // 3.Check
+        assertDoesNotThrow(() -> target.delete(x));
+
+        // 4.Log
+        log.info("結果：" + result);
+	}
+	
+	@Test
+	void deleteメソッドのモック値にany型を設定して例外をスローする() throws SQLException {
+		// 0.Mock
+		doThrow(new SQLException("")).when(mock).delete(anyInt());
+		
+		// 1.Ready
+        String x = "01";
+        boolean expected = false;
+        
+        // 2.Do
+        boolean result = target.delete(x);
+        
+        // 3.Check
+        assertEquals(expected, result);
+
+        // 4.Log
+        log.info("結果：" + result);
 	}
 
 	@Test
